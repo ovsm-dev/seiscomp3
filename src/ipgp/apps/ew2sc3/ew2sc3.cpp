@@ -570,14 +570,14 @@ int EW2SC3::ew_read() {
 					// Accept only ew_export messages which ID is 14
 					if ( atoi(msg_type) == MSGID ) {
 
-						// Accept messages which institudeID matches 0 (earthworm WILDCARD),
+						// Accept any message if _instID is set to 0 (earthworm WILDCARD),
 						// 255 (earthworm UNKNOWN) or specified ID only.
-						if ( (atoi(msg_inst) == _instID) || (atoi(msg_inst) == INST_WILDCARD)
+						if ( (atoi(msg_inst) == _instID) || (_instID == INST_WILDCARD)
 						        || (atoi(msg_inst) == INST_UNKNOWN) ) {
 
-							// Accept messages which moduleID is 0 (earthworm WILDCARD)
+							// Accept any message if _modID is set to 0 (earthworm WILDCARD)
 							// or specified ID only.
-							if ( (atoi(msg_mod) == _modID) || (atoi(msg_mod) == MOD_WILDCARD) ) {
+							if ( (atoi(msg_mod) == _modID) || (_modID == MOD_WILDCARD) ) {
 
 								SEISCOMP_LOG(_infoChannel, "Incoming origin from Earthworm "
 									"[msgID: %d | instID: %d | modID: %d]",
@@ -587,12 +587,12 @@ int EW2SC3::ew_read() {
 							}
 							else
 								SEISCOMP_LOG(_errorChannel, "Incoming trace has been ignored "
-									"[modID: %d != %d or %d]", atoi(msg_mod), _modID, MOD_WILDCARD);
+									"[modID: %d != %d]", atoi(msg_mod), _modID);
 						}
 						else
 							SEISCOMP_LOG(_errorChannel, "Incoming trace has been ignored "
-								"[instID: %d != %d or %d or %d]",
-							    atoi(msg_inst), _instID, INST_WILDCARD, INST_UNKNOWN);
+								"[instID: %d != %d or %d]",
+							    atoi(msg_inst), _instID, INST_UNKNOWN);
 					}
 					else
 						SEISCOMP_LOG(_errorChannel, "Incoming stream has been ignored "
